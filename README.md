@@ -14,7 +14,7 @@ A fast Chrome extension for searching Indodax cryptocurrency pairs with local ca
 
 1. Open Chrome and navigate to `chrome://extensions/`
 2. Enable "Developer mode" in the top right
-3. Click "Load unpacked" 
+3. Click "Load unpacked"
 4. Select the `indodax-search-extension` folder
 5. The extension will appear in your browser toolbar
 
