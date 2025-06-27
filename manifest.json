@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Indodax Coin Search",
+  "version": "1.0.0",
+  "description": "Fast search for Indodax cryptocurrency pairs with local caching",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://indodax.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
