@@ -4,17 +4,27 @@
   padding: 0;
 }
 
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ink: #172033;
+  --muted: #718096;
+  --line: #e7ebf2;
+  --surface: #ffffff;
+  --canvas: #f5f7fb;
+  --accent: #635bff;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  width: 400px;
+  width: 420px;
   min-height: 500px;
-  background: #f5f5f5;
+  color: var(--ink);
+  background: var(--canvas);
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   min-height: 500px;
 }
 
@@ -22,28 +32,33 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
-  background: #1a1a2e;
+  padding: 20px 18px 18px;
   color: white;
+  background: linear-gradient(135deg, #171c35 0%, #27265c 100%);
 }
 
 .header h1 {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
 }
 
 .refresh-btn {
-  background: none;
-  border: none;
-  color: white;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #dfe2ff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: background 0.2s, transform 0.2s;
 }
 
 .refresh-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .refresh-btn.rotating svg {
@@ -55,16 +70,10 @@ body {
   to { transform: rotate(360deg); }
 }
 
-.search-container {
-  padding: 16px;
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
-}
-
 .exchange-container {
-  padding: 8px;
-  background: #fff;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 14px 10px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
 }
 
 .exchange-tabs {
@@ -74,63 +83,80 @@ body {
 }
 
 .exchange-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   flex: 0 0 86px;
   width: 86px;
-  height: 34px;
-  justify-content: flex-start;
-  padding: 8px;
-  border: 1px solid #d5d5d5;
-  border-radius: 6px;
-  background: white;
-  font-size: 13px;
-  color: #444;
+  height: 32px;
+  padding: 0 8px;
+  overflow: hidden;
+  color: #596579;
+  font-size: 12px;
   font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: #f7f8fc;
+  border: 1px solid #e4e8f0;
+  border-radius: 8px;
   cursor: pointer;
+  transition: color 0.2s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 .exchange-tab:hover {
-  border-color: #1a1a2e;
-  background: #f0f0f7;
-  color: #1a1a2e;
+  color: var(--accent);
+  background: #f0efff;
+  border-color: #cfcaff;
 }
 
 .exchange-tab.active {
-  border-color: #1a1a2e;
-  background: #1a1a2e;
   color: white;
-  box-shadow: 0 2px 5px rgba(26, 26, 46, 0.3);
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 3px 8px rgba(99, 91, 255, 0.28);
+}
+
+.search-container {
+  padding: 14px;
+  background: var(--surface);
 }
 
 #searchInput {
   width: 100%;
-  padding: 12px 16px;
+  padding: 12px 14px 12px 40px;
+  color: var(--ink);
   font-size: 14px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  background: #f7f8fc;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23718096' stroke-width='2'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='m11 11 4 4'/%3E%3C/svg%3E");
+  background-position: 14px center;
+  background-repeat: no-repeat;
+  border: 1px solid #e1e6ef;
+  border-radius: 10px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+#searchInput::placeholder {
+  color: #9aa5b5;
 }
 
 #searchInput:focus {
-  border-color: #1a1a2e;
+  background-color: white;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.12);
 }
 
 .status {
-  padding: 12px 16px;
-  background: #fff3cd;
-  color: #856404;
+  padding: 10px 14px;
+  color: #9a6700;
+  font-size: 13px;
   text-align: center;
-  font-size: 14px;
-  display: none;
+  background: #fff8e1;
+  border-top: 1px solid #f9e7ae;
+  border-bottom: 1px solid #f9e7ae;
 }
 
 .results-container {
   flex: 1;
   overflow-y: auto;
-  background: white;
+  background: var(--surface);
 }
 
 .results-list {
@@ -141,72 +167,84 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid #f0f0f0;
+  gap: 16px;
+  padding: 13px 16px;
+  border-bottom: 1px solid #f0f2f6;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background 0.15s, padding-left 0.15s;
 }
 
 .result-item:hover {
-  background-color: #f8f9fa;
+  padding-left: 19px;
+  background: #f8f8ff;
 }
 
 .pair-info {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   gap: 4px;
 }
 
 .pair-symbol {
-  font-weight: 600;
+  overflow: hidden;
+  color: var(--ink);
   font-size: 14px;
-  color: #1a1a2e;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .pair-description {
+  overflow: hidden;
+  color: var(--muted);
   font-size: 12px;
-  color: #666;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .pair-quote {
-  font-size: 12px;
-  color: #999;
-  font-weight: 500;
+  flex: 0 0 auto;
+  padding: 4px 7px;
+  color: #626d80;
+  font-size: 11px;
+  font-weight: 700;
+  background: #f1f3f8;
+  border-radius: 5px;
 }
 
 .no-results {
-  padding: 32px;
-  text-align: center;
-  color: #666;
+  padding: 48px 24px;
+  color: var(--muted);
   font-size: 14px;
+  text-align: center;
 }
 
 .footer {
-  padding: 12px 16px;
-  background: #f8f9fa;
-  border-top: 1px solid #e0e0e0;
+  padding: 11px 16px;
   text-align: center;
+  background: #fafbfc;
+  border-top: 1px solid var(--line);
 }
 
 #lastUpdated {
-  font-size: 12px;
-  color: #666;
+  color: #8b96a8;
+  font-size: 11px;
 }
 
-/* Scrollbar styling */
 .results-container::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 
 .results-container::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
 }
 
 .results-container::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background: #cbd2df;
+  border-radius: 10px;
 }
 
 .results-container::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #aeb8c8;
 }
