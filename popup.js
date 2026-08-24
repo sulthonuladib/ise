@@ -24,49 +24,49 @@ const SELECTED_EXCHANGE_KEY = 'selected_exchange';
 /** @type {Object<string, ExchangeConfig>} */
 const EXCHANGES = {
 	indodax: {
-		name: 'Indodax', quote: 'IDR', favicon: 'https://indodax.com/favicon.ico', apiUrl: 'https://indodax.com/api/pairs',
+		name: 'Indodax', quote: 'IDR', apiUrl: 'https://indodax.com/api/pairs',
 		hosts: ['indodax.com'],
 		formatUrl: pair => `https://indodax.com/market/${pair.id}`,
 		normalize: pair => ({ base: pair.traded_currency_unit, quote: pair.base_currency, symbol: pair.symbol, description: pair.description, id: pair.id })
 	},
 	pintu: {
-		name: 'Pintu', quote: 'IDR', favicon: 'https://pintu.com/favicon.ico', apiUrl: 'https://api.pintu.pro/v1/public/get-symbols-reference',
+		name: 'Pintu', quote: 'IDR', apiUrl: 'https://api.pintu.pro/v1/public/get-symbols-reference',
 		hosts: ['pintu.com'],
 		formatUrl: pair => `https://pintu.com/pro/id/trade/${pair.base}_${pair.quote}`,
 		normalize: pair => ({ base: pair.base_asset, quote: pair.quote_asset, symbol: pair.symbol, description: pair.symbol, id: pair.symbol })
 	},
 	binance: {
-		name: 'Binance', quote: 'USDT', favicon: 'https://www.binance.com/favicon.ico', apiUrl: 'https://api.binance.com/api/v3/exchangeInfo',
+		name: 'Binance', quote: 'USDT', apiUrl: 'https://api.binance.com/api/v3/exchangeInfo',
 		hosts: ['binance.com'],
 		formatUrl: pair => `https://www.binance.com/en/trade/${pair.base}_${pair.quote}`,
 		normalize: pair => ({ base: pair.baseAsset, quote: pair.quoteAsset, symbol: pair.symbol, description: `${pair.baseAsset}/${pair.quoteAsset}`, id: pair.symbol })
 	},
 	mexc: {
-		name: 'MEXC', quote: 'USDT', favicon: 'https://www.mexc.fm/favicon.ico', apiUrl: 'https://api.mexc.com/api/v3/exchangeInfo',
+		name: 'MEXC', quote: 'USDT', apiUrl: 'https://api.mexc.com/api/v3/exchangeInfo',
 		hosts: ['mexc.com', 'mexc.fm'],
 		formatUrl: pair => `https://www.mexc.fm/exchange/${pair.base}_${pair.quote}`,
 		normalize: pair => ({ base: pair.baseAsset, quote: pair.quoteAsset, symbol: pair.symbol, description: `${pair.baseAsset}/${pair.quoteAsset}`, id: pair.symbol })
 	},
 	kucoin: {
-		name: 'KuCoin', quote: 'USDT', favicon: 'https://www.kucoin.com/favicon.ico', apiUrl: 'https://api.kucoin.com/api/v2/symbols',
+		name: 'KuCoin', quote: 'USDT', apiUrl: 'https://api.kucoin.com/api/v2/symbols',
 		hosts: ['kucoin.com'],
 		formatUrl: pair => `https://www.kucoin.com/trade/${pair.baseCurrency}-${pair.quoteCurrency}`,
 		normalize: pair => ({ base: pair.baseCurrency, quote: pair.quoteCurrency, symbol: pair.symbol, description: pair.symbol, id: pair.symbol })
 	},
 	gateio: {
-		name: 'GateIO', quote: 'USDT', favicon: 'https://www.gate.com/favicon.ico', apiUrl: 'https://api.gateio.ws/api/v4/spot/currency_pairs',
+		name: 'GateIO', quote: 'USDT', apiUrl: 'https://api.gateio.ws/api/v4/spot/currency_pairs',
 		hosts: ['gate.io', 'gate.com', 'gateio.com'],
 		formatUrl: pair => `https://www.gate.com/trade/${pair.base}_${pair.quote}`,
 		normalize: pair => ({ base: pair.base, quote: pair.quote, symbol: pair.id, description: pair.id, id: pair.id })
 	},
 	bitget: {
-		name: 'Bitget', quote: 'USDT', favicon: 'https://www.bitget.com/favicon.ico', apiUrl: 'https://api.bitget.com/api/v2/spot/public/symbols',
+		name: 'Bitget', quote: 'USDT', apiUrl: 'https://api.bitget.com/api/v2/spot/public/symbols',
 		hosts: ['bitget.com'],
 		formatUrl: pair => `https://www.bitget.com/spot/${pair.base}_${pair.quote}`,
 		normalize: pair => ({ base: pair.baseCoin, quote: pair.quoteCoin, symbol: pair.symbol, description: `${pair.baseCoin}/${pair.quoteCoin}`, id: pair.symbol })
 	},
 	bybit: {
-		name: 'Bybit', quote: 'USDT', favicon: 'https://www.bybit.com/favicon.ico', apiUrl: 'https://api.bybit.com/v5/market/instruments-info?category=spot',
+		name: 'Bybit', quote: 'USDT', apiUrl: 'https://api.bybit.com/v5/market/instruments-info?category=spot',
 		hosts: ['bybit.com'],
 		formatUrl: pair => `https://www.bybit.com/trade/spot/${pair.base}_${pair.quote}`,
 		normalize: pair => ({ base: pair.baseCoin, quote: pair.quoteCoin, symbol: pair.symbol, description: `${pair.baseCoin}/${pair.quoteCoin}`, id: pair.symbol })
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 		tab.dataset.exchange = key;
 		tab.setAttribute('role', 'tab');
 		tab.setAttribute('aria-label', exchange.name);
-		tab.innerHTML = `<img src="${exchange.favicon}" alt="" aria-hidden="true"><span>${exchange.name}</span>`;
+		tab.textContent = exchange.name;
 		tab.addEventListener('click', () => selectExchange(key));
 		tabs.appendChild(tab);
 	});

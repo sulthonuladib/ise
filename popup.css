@@ -94,12 +94,6 @@ body {
   font-weight: 600;
 }
 
-.exchange-tab img {
-  width: 16px;
-  height: 16px;
-  object-fit: contain;
-}
-
 #searchInput {
   width: 100%;
   padding: 12px 16px;
