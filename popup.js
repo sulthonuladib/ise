@@ -1,5 +1,5 @@
 const CACHE_DURATION = 24 * 60 * 60 * 1000;
-const CACHE_KEY = 'exchange_pair_cache';
+const CACHE_KEY = 'exchange_pair_cache_v2';
 const SELECTED_EXCHANGE_KEY = 'selected_exchange';
 
 /**
@@ -45,7 +45,11 @@ const EXCHANGES = {
 		name: 'MEXC', quote: 'USDT', apiUrl: 'https://api.mexc.com/api/v3/exchangeInfo',
 		hosts: ['mexc.com', 'mexc.fm'],
 		formatUrl: pair => `https://www.mexc.fm/exchange/${pair.base}_${pair.quote}`,
-		normalize: pair => ({ base: pair.baseAsset, quote: pair.quoteAsset, symbol: pair.symbol, description: `${pair.baseAsset}/${pair.quoteAsset}`, id: pair.symbol })
+		normalize: pair => {
+			const base = pair.baseAsset || pair.baseCoin;
+			const quote = pair.quoteAsset || pair.quoteCoin;
+			return { base, quote, symbol: pair.symbol, description: `${base}/${quote}`, id: pair.symbol };
+		}
 	},
 	kucoin: {
 		name: 'KuCoin', quote: 'USDT', apiUrl: 'https://api.kucoin.com/api/v2/symbols',
