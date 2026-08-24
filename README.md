@@ -1,51 +1,68 @@
 # Exchange Coin Search Chrome Extension
 
-A fast Chrome extension for searching cryptocurrency pairs across multiple exchanges with local caching.
+A fast Chrome extension for searching cryptocurrency trading pairs across multiple exchanges without waiting for exchange websites to load.
 
 ## Features
 
-- **Fast Search**: Instantly search through trading pairs on the selected exchange
-- **Exchange Selection**: Supports Indodax, Pintu, Binance, MEXC, KuCoin, GateIO, Bitget, and Bybit
-- **Current Tab Detection**: Selects the exchange matching the active exchange website automatically
-- **Local Caching**: Stores pair data locally for 24 hours to avoid repeated API calls
-- **Quick Access**: Click on any pair to open it directly on the selected exchange
-- **Manual Refresh**: Refresh button to update the pair list on demand
-- **Clean UI**: Simple and responsive interface
+- **Multi-exchange search**: Switch between Indodax, Pintu, Binance, MEXC, KuCoin, GateIO, Bitget, and Bybit.
+- **Exchange tabs**: Use compact, fixed-size tabs with clear active-state highlighting. Tabs wrap across rows instead of scrolling horizontally.
+- **Current-tab detection**: Automatically selects the exchange matching the active browser tab. GateIO detection supports `gate.com`, `gate.io`, and `gateio.com`; MEXC supports `mexc.fm` and `mexc.com`.
+- **Exchange-specific API adapters**: Handles each exchange's different symbol-list response format and normalizes pairs for one search experience.
+- **Target-quote filtering**: Shows IDR pairs for Indodax and Pintu, and USDT pairs for the other supported exchanges.
+- **Fast local caching**: Stores each exchange's pair list locally for 24 hours, reducing repeated API requests.
+- **Instant search**: Searches pair symbols, base currencies, quote currencies, and descriptions as you type.
+- **Direct market links**: Click a result to open the corresponding market on the selected exchange.
+- **Manual refresh**: Refresh one exchange's cached pair list on demand.
+- **Responsive popup UI**: Includes an accessible search field, empty results state, error messages, and a modern compact layout.
+
+## Supported Exchanges
+
+| Exchange | Target quote | Market URL |
+| --- | --- | --- |
+| Indodax | IDR | `https://indodax.com/market/{pairquote}` |
+| Pintu | IDR | `https://pintu.com/pro/id/trade/{pair_quote}` |
+| Binance | USDT | `https://www.binance.com/en/trade/{pair_quote}` |
+| MEXC | USDT | `https://www.mexc.fm/exchange/{pair_quote}` |
+| KuCoin | USDT | `https://www.kucoin.com/trade/{pair_quote}` |
+| GateIO | USDT | `https://www.gate.com/trade/{pair_quote}` |
+| Bitget | USDT | `https://www.bitget.com/spot/{pair_quote}` |
+| Bybit | USDT | `https://www.bybit.com/trade/spot/{pair_quote}` |
+
+The symbol-list API URLs and response notes are documented in [`BASE_URL.md`](BASE_URL.md).
 
 ## Installation
 
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable "Developer mode" in the top right
-3. Click "Load unpacked"
-4. Select the `indodax-search-extension` folder
-5. The extension will appear in your browser toolbar
+1. Open Chrome and navigate to `chrome://extensions/`.
+2. Enable **Developer mode**.
+3. Click **Load unpacked**.
+4. Select this repository directory.
+5. Pin **Exchange Coin Search** to the browser toolbar.
 
-## Generating Icons
-
-1. Open `create-icons.html` in your browser
-2. The icons will be automatically downloaded
-3. Move the downloaded icons to the extension folder
+After changing the source files, click **Reload** for the extension on the extensions page.
 
 ## Usage
 
-1. Click the extension icon in your toolbar
-2. Select an exchange or leave the automatically detected exchange selected
-3. Start typing to search for coin pairs (e.g., "BTC", "ETH", "USDT")
-4. Click on any result to open that market on the selected exchange
-5. Use the refresh button to update the pair list manually
+1. Open the extension popup.
+2. Choose an exchange tab, or use the automatically detected exchange.
+3. Type a coin, symbol, quote currency, or description into the search field.
+4. Click a result to open its market page in a new tab.
+5. Click the refresh button to fetch the selected exchange's latest pair list.
 
 ## Technical Details
 
-- **APIs**: Uses each exchange's public spot symbol endpoint listed in `BASE_URL.md`
-- **Cache Duration**: 24 hours (automatically refreshes after expiry)
-- **Storage**: Chrome's local storage API
-- **Permissions**: Storage, active-tab detection, and access to the listed exchange/API domains
+- **Manifest**: Chrome Manifest V3.
+- **Storage**: `chrome.storage.local`, with a separate cached list for each exchange.
+- **Cache duration**: 24 hours. The current cache schema uses a versioned key so API format changes trigger a fresh download.
+- **Networking**: Public exchange symbol APIs; no authentication or account access is required.
+- **Permissions**: `storage`, `tabs`, and host access for the supported exchange websites and public APIs.
+- **API configuration**: Exchange definitions, target quotes, normalizers, and market URL builders are in `popup.js`.
 
 ## Development
 
-The extension consists of:
-- `manifest.json` - Chrome extension configuration
-- `popup.html` - Extension popup interface
-- `popup.js` - Main logic for fetching, caching, and searching
-- `popup.css` - Styling for the popup
-- `icon*.png` - Extension icons (16x16, 48x48, 128x128)
+- `manifest.json` - Chrome extension configuration and permissions
+- `popup.html` - Popup markup
+- `popup.js` - Exchange adapters, tab detection, caching, fetching, filtering, and search
+- `popup.css` - Popup layout and styling
+- `BASE_URL.md` - Supported exchange market and symbol-list API references
+- `icon16.png`, `icon48.png`, `icon128.png` - Extension icons
+- `create-icons.html` - Icon generation helper
