@@ -1,12 +1,14 @@
-# Indodax Search Chrome Extension
+# Exchange Coin Search Chrome Extension
 
-A fast Chrome extension for searching Indodax cryptocurrency pairs with local caching.
+A fast Chrome extension for searching cryptocurrency pairs across multiple exchanges with local caching.
 
 ## Features
 
-- **Fast Search**: Instantly search through all Indodax trading pairs
+- **Fast Search**: Instantly search through trading pairs on the selected exchange
+- **Exchange Selection**: Supports Indodax, Pintu, Binance, MEXC, KuCoin, GateIO, Bitget, and Bybit
+- **Current Tab Detection**: Selects the exchange matching the active exchange website automatically
 - **Local Caching**: Stores pair data locally for 24 hours to avoid repeated API calls
-- **Quick Access**: Click on any pair to open it directly on Indodax
+- **Quick Access**: Click on any pair to open it directly on the selected exchange
 - **Manual Refresh**: Refresh button to update the pair list on demand
 - **Clean UI**: Simple and responsive interface
 
@@ -27,16 +29,17 @@ A fast Chrome extension for searching Indodax cryptocurrency pairs with local ca
 ## Usage
 
 1. Click the extension icon in your toolbar
-2. Start typing to search for coin pairs (e.g., "BTC", "ETH", "USDT")
-3. Click on any result to open that market on Indodax
-4. Use the refresh button to update the pair list manually
+2. Select an exchange or leave the automatically detected exchange selected
+3. Start typing to search for coin pairs (e.g., "BTC", "ETH", "USDT")
+4. Click on any result to open that market on the selected exchange
+5. Use the refresh button to update the pair list manually
 
 ## Technical Details
 
-- **API**: Uses Indodax public API endpoint: `https://indodax.com/api/pairs`
+- **APIs**: Uses each exchange's public spot symbol endpoint listed in `BASE_URL.md`
 - **Cache Duration**: 24 hours (automatically refreshes after expiry)
 - **Storage**: Chrome's local storage API
-- **Permissions**: Only requires storage permission and access to indodax.com
+- **Permissions**: Storage, active-tab detection, and access to the listed exchange/API domains
 
 ## Development
 
