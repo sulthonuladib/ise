@@ -42,9 +42,9 @@ const EXCHANGES = {
 		normalize: pair => ({ base: pair.baseAsset, quote: pair.quoteAsset, symbol: pair.symbol, description: `${pair.baseAsset}/${pair.quoteAsset}`, id: pair.symbol })
 	},
 	mexc: {
-		name: 'MEXC', quote: 'USDT', favicon: 'https://www.mexc.com/favicon.ico', apiUrl: 'https://api.mexc.com/api/v3/exchangeInfo',
+		name: 'MEXC', quote: 'USDT', favicon: 'https://www.mexc.fm/favicon.ico', apiUrl: 'https://api.mexc.com/api/v3/exchangeInfo',
 		hosts: ['mexc.com', 'mexc.fm'],
-		formatUrl: pair => `https://www.mexc.com/exchange/${pair.base}_${pair.quote}`,
+		formatUrl: pair => `https://www.mexc.fm/exchange/${pair.base}_${pair.quote}`,
 		normalize: pair => ({ base: pair.baseAsset, quote: pair.quoteAsset, symbol: pair.symbol, description: `${pair.baseAsset}/${pair.quoteAsset}`, id: pair.symbol })
 	},
 	kucoin: {
@@ -54,9 +54,9 @@ const EXCHANGES = {
 		normalize: pair => ({ base: pair.baseCurrency, quote: pair.quoteCurrency, symbol: pair.symbol, description: pair.symbol, id: pair.symbol })
 	},
 	gateio: {
-		name: 'GateIO', quote: 'USDT', favicon: 'https://www.gate.io/favicon.ico', apiUrl: 'https://api.gateio.ws/api/v4/spot/currency_pairs',
-		hosts: ['gate.io'],
-		formatUrl: pair => `https://www.gate.io/trade/${pair.base}_${pair.quote}`,
+		name: 'GateIO', quote: 'USDT', favicon: 'https://www.gate.com/favicon.ico', apiUrl: 'https://api.gateio.ws/api/v4/spot/currency_pairs',
+		hosts: ['gate.io', 'gate.com', 'gateio.com'],
+		formatUrl: pair => `https://www.gate.com/trade/${pair.base}_${pair.quote}`,
 		normalize: pair => ({ base: pair.base, quote: pair.quote, symbol: pair.id, description: pair.id, id: pair.id })
 	},
 	bitget: {
@@ -105,7 +105,6 @@ function extractPairs(exchangeKey, data) {
 
 async function fetchPairs() {
 	const exchange = EXCHANGES[selectedExchange];
-	showStatus(`Fetching ${exchange.name} pairs...`);
 	try {
 		const response = await fetch(exchange.apiUrl);
 		if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -209,7 +208,6 @@ async function selectExchange(exchangeKey) {
 		tab.classList.toggle('active', tab.dataset.exchange === exchangeKey);
 		tab.setAttribute('aria-selected', String(tab.dataset.exchange === exchangeKey));
 	});
-	showStatus('Loading...');
 	await loadCachedPairs();
 	handleSearch();
 }
@@ -235,9 +233,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 		tab.addEventListener('click', () => selectExchange(key));
 		tabs.appendChild(tab);
 	});
-	selectedExchange = await getDefaultExchange();
-	await selectExchange(selectedExchange);
 	document.getElementById('searchInput').addEventListener('input', handleSearch);
 	document.getElementById('refreshBtn').addEventListener('click', handleRefresh);
+	displayResults([]);
 	document.getElementById('searchInput').focus();
+
+	// Render the popup first; tab detection and data loading can take a moment.
+	selectedExchange = await getDefaultExchange();
+	await selectExchange(selectedExchange);
 });

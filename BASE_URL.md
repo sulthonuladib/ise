@@ -16,8 +16,8 @@
   - Symbol List URL: `https://api.binance.com/api/v3/exchangeInfo`
 - MEXC
   - Target Pair = USDT
-  - Target Location: `https://www.mexc.com/exchange/{pair_quote}`
-    Example: `https://www.mexc.com/exchange/BTC_USDT`
+  - Target Location: `https://www.mexc.fm/exchange/{pair_quote}`
+    Example: `https://www.mexc.fm/exchange/BTC_USDT`
   - Symbol List URL: `https://api.mexc.com/api/v3/exchangeInfo`
 - KuCoin
   - Target Pair = USDT
@@ -26,8 +26,8 @@
   - Symbol List URL: `https://api.kucoin.com/api/v2/symbols`
 - GateIO
   - Target Pair = USDT
-  - Target Location: `https://www.gate.io/trade/{pair_quote}`
-    Example: `https://www.gate.io/trade/BTC_USDT`
+  - Target Location: `https://www.gate.com/trade/{pair_quote}`
+    Example: `https://www.gate.com/trade/BTC_USDT`
   - Symbol List URL: `https://api.gateio.ws/api/v4/spot/currency_pairs`
 - Bitget
   - Target Pair = USDT

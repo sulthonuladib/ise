@@ -62,7 +62,6 @@ body {
 }
 
 .exchange-container {
-  overflow-x: auto;
   padding: 8px;
   background: #fff;
   border-bottom: 1px solid #e0e0e0;
@@ -70,8 +69,8 @@ body {
 
 .exchange-tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
-  min-width: max-content;
 }
 
 .exchange-tab {
