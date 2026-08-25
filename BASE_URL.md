@@ -36,6 +36,6 @@
   - Symbol List URL: `https://api.bitget.com/api/v2/spot/public/symbols`
 - Bybit
   - Target Pair = USDT
-  - Target Location: `https://www.bybit.com/trade/spot/{pair_quote}`
-    Example: `https://www.bybit.com/trade/spot/BTC_USDT`
+  - Target Location: `https://www.bybit.com/en/trade/spot/{base}/{quote}`
+    Example: `https://www.bybit.com/en/trade/spot/BTC/USDT`
   - Symbol List URL: `https://api.bybit.com/v5/market/instruments-info?category=spot`

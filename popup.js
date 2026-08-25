@@ -72,7 +72,7 @@ const EXCHANGES = {
 	bybit: {
 		name: 'Bybit', quote: 'USDT', apiUrl: 'https://api.bybit.com/v5/market/instruments-info?category=spot',
 		hosts: ['bybit.com'],
-		formatUrl: pair => `https://www.bybit.com/trade/spot/${pair.base}_${pair.quote}`,
+		formatUrl: pair => `https://www.bybit.com/en/trade/spot/${pair.base}/${pair.quote}`,
 		normalize: pair => ({ base: pair.baseCoin, quote: pair.quoteCoin, symbol: pair.symbol, description: `${pair.baseCoin}/${pair.quoteCoin}`, id: pair.symbol })
 	}
 };
