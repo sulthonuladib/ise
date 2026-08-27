@@ -67,7 +67,7 @@ const EXCHANGES = {
 		name: 'Bitget', quote: 'USDT', apiUrl: 'https://api.bitget.com/api/v2/spot/public/symbols',
 		hosts: ['bitget.com'],
 		formatUrl: pair => `https://www.bitget.com/spot/${pair.base}_${pair.quote}`,
-		normalize: pair => ({ base: pair.baseCoin, quote: pair.quoteCoin, symbol: pair.symbol, description: `${pair.baseCoin}/${pair.quoteCoin}`, id: pair.symbol })
+		normalize: pair => ({ base: pair.baseCoin, quote: pair.quoteCoin, symbol: pair.symbol, description: `${pair.baseCoin}${pair.quoteCoin}`, id: pair.symbol })
 	},
 	bybit: {
 		name: 'Bybit', quote: 'USDT', apiUrl: 'https://api.bybit.com/v5/market/instruments-info?category=spot',
