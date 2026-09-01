@@ -25,7 +25,7 @@ A fast Chrome extension for searching cryptocurrency trading pairs across multip
 | MEXC | USDT | `https://www.mexc.fm/exchange/{pair_quote}` |
 | KuCoin | USDT | `https://www.kucoin.com/trade/{pair_quote}` |
 | GateIO | USDT | `https://www.gate.com/trade/{pair_quote}` |
-| Bitget | USDT | `https://www.bitget.com/spot/{pair_quote}` |
+| Bitget | USDT | `https://www.bitget.com/spot/{pairquote}` |
 | Bybit | USDT | `https://www.bybit.com/en/trade/spot/{base}/{quote}` |
 
 The symbol-list API URLs and response notes are documented in [`BASE_URL.md`](BASE_URL.md).

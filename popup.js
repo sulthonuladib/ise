@@ -54,7 +54,10 @@ const EXCHANGES = {
 	kucoin: {
 		name: 'KuCoin', quote: 'USDT', apiUrl: 'https://api.kucoin.com/api/v2/symbols',
 		hosts: ['kucoin.com'],
-		formatUrl: pair => `https://www.kucoin.com/trade/${pair.baseCurrency}-${pair.quoteCurrency}`,
+		formatUrl: pair => {
+			// console.log(pair);
+			return `https://www.kucoin.com/trade/${pair.baseCurrency}-${pair.quoteCurrency}`
+		},
 		normalize: pair => ({ base: pair.baseCurrency, quote: pair.quoteCurrency, symbol: pair.symbol, description: pair.symbol, id: pair.symbol })
 	},
 	gateio: {
@@ -66,7 +69,7 @@ const EXCHANGES = {
 	bitget: {
 		name: 'Bitget', quote: 'USDT', apiUrl: 'https://api.bitget.com/api/v2/spot/public/symbols',
 		hosts: ['bitget.com'],
-		formatUrl: pair => `https://www.bitget.com/spot/${pair.base}_${pair.quote}`,
+		formatUrl: pair => `https://www.bitget.com/spot/${pair.base}${pair.quote}`,
 		normalize: pair => ({ base: pair.baseCoin, quote: pair.quoteCoin, symbol: pair.symbol, description: `${pair.baseCoin}${pair.quoteCoin}`, id: pair.symbol })
 	},
 	bybit: {
