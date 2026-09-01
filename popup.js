@@ -55,8 +55,7 @@ const EXCHANGES = {
 		name: 'KuCoin', quote: 'USDT', apiUrl: 'https://api.kucoin.com/api/v2/symbols',
 		hosts: ['kucoin.com'],
 		formatUrl: pair => {
-			// console.log(pair);
-			return `https://www.kucoin.com/trade/${pair.baseCurrency}-${pair.quoteCurrency}`
+			return `https://www.kucoin.com/trade/${pair.base}-${pair.quote}`
 		},
 		normalize: pair => ({ base: pair.baseCurrency, quote: pair.quoteCurrency, symbol: pair.symbol, description: pair.symbol, id: pair.symbol })
 	},
