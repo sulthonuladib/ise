@@ -26,7 +26,7 @@ const EXCHANGES = {
 	indodax: {
 		name: 'Indodax', quote: 'IDR', apiUrl: 'https://indodax.com/api/pairs',
 		hosts: ['indodax.com'],
-		formatUrl: pair => `https://indodax.com/market/${pair.id}`,
+		formatUrl: pair => `https://indodax.com/market/${pair.symbol}`,
 		normalize: pair => ({ base: pair.traded_currency_unit, quote: pair.base_currency, symbol: pair.symbol, description: pair.description, id: pair.id })
 	},
 	pintu: {
@@ -118,9 +118,7 @@ async function fetchPairs() {
 		const pairs = extractPairs(selectedExchange, raw).filter(pair => {
 			const normalized = exchange.normalize(pair);
 			const isTargetQuote = String(normalized.quote).toUpperCase() === exchange.quote;
-			const status = String(pair.status || pair.trade_status || '').toLowerCase();
-			const unavailable = pair.is_maintenance === 1 || pair.is_market_suspended === 1;
-			return isTargetQuote && !unavailable && !['break', 'offline', 'maintenance', 'suspended'].includes(status);
+			return isTargetQuote
 		});
 		const timestamp = Date.now();
 		const cache = (await chrome.storage.local.get(CACHE_KEY))[CACHE_KEY] || {};
@@ -200,10 +198,22 @@ function displayResults(pairs) {
 
 function handleSearch() {
 	const term = document.getElementById('searchInput').value.trim().toLowerCase();
-	displayResults(pairsData.filter(pair => {
+	const matches = pairsData.filter(pair => {
 		const formatted = formatPairDisplay(pair);
 		return !term || [formatted.symbol, formatted.base, formatted.quote, formatted.description].some(value => value.toLowerCase().includes(term));
-	}));
+	});
+	if (term) {
+		matches.sort((a, b) => {
+			const fa = formatPairDisplay(a);
+			const fb = formatPairDisplay(b);
+			const startsWithA = [fa.symbol, fa.base, fa.quote, fa.description].some(v => v.toLowerCase().startsWith(term));
+			const startsWithB = [fb.symbol, fb.base, fb.quote, fb.description].some(v => v.toLowerCase().startsWith(term));
+			if (startsWithA && !startsWithB) return -1;
+			if (!startsWithA && startsWithB) return 1;
+			return 0;
+		});
+	}
+	displayResults(matches);
 }
 
 async function selectExchange(exchangeKey) {
