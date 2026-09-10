@@ -1,13 +1,30 @@
 {
   "manifest_version": 3,
-  "name": "Indodax Coin Search",
+  "name": "Exchange Coin Search",
   "version": "1.0.0",
-  "description": "Fast search for Indodax cryptocurrency pairs with local caching",
+  "description": "Fast search for cryptocurrency pairs across multiple exchanges",
   "permissions": [
-    "storage"
+    "storage",
+    "tabs"
   ],
   "host_permissions": [
-    "https://indodax.com/*"
+    "https://indodax.com/*",
+    "https://api.pintu.pro/*",
+    "https://pintu.com/*",
+    "https://api.binance.com/*",
+    "https://www.binance.com/*",
+    "https://www.mexc.com/*",
+    "https://www.mexc.fm/*",
+    "https://api.mexc.com/*",
+    "https://api.kucoin.com/*",
+    "https://www.kucoin.com/*",
+    "https://api.gateio.ws/*",
+    "https://www.gate.io/*",
+    "https://www.gate.com/*",
+    "https://api.bitget.com/*",
+    "https://www.bitget.com/*",
+    "https://api.bybit.com/*",
+    "https://www.bybit.com/*"
   ],
   "action": {
     "default_popup": "popup.html",
