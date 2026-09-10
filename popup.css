@@ -161,6 +161,7 @@ body {
 
 .results-list {
   list-style: none;
+  transition: opacity 0.1s ease;
 }
 
 .result-item {
