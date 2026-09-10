@@ -6,8 +6,8 @@
   - Symbol List URL: `https://indodax.com/api/pairs`
 - Pintu
   - Target Pair = IDR
-  - Target Location: `https://pintu.com/pro/id/trade/{pair_quote}`
-    Example: `https://pintu.com/pro/id/trade/BTC_IDR`
+  - Target Location: `https://pintu.co.id/pro/id/trade/{pair_quote}`
+    Example: `https://pintu.co.id/pro/id/trade/BTC_IDR`
   - Symbol List URL: `https://api.pintu.pro/v1/public/get-symbols-reference`
 - Binance
   - Target Pair = USDT

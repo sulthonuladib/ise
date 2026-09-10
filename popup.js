@@ -32,7 +32,7 @@ const EXCHANGES = {
 	pintu: {
 		name: 'Pintu', quote: 'IDR', apiUrl: 'https://api.pintu.pro/v1/public/get-symbols-reference',
 		hosts: ['pintu.com'],
-		formatUrl: pair => `https://pintu.com/pro/id/trade/${pair.base}_${pair.quote}`,
+		formatUrl: pair => `https://pintu.co.id/pro/id/trade/${pair.base}_${pair.quote}`,
 		normalize: pair => ({ base: pair.base_asset, quote: pair.quote_asset, symbol: pair.symbol, description: pair.symbol, id: pair.symbol })
 	},
 	binance: {

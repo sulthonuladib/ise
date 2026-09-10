@@ -20,7 +20,7 @@ A fast Chrome extension for searching cryptocurrency trading pairs across multip
 | Exchange | Target quote | Market URL |
 | --- | --- | --- |
 | Indodax | IDR | `https://indodax.com/market/{pairquote}` |
-| Pintu | IDR | `https://pintu.com/pro/id/trade/{pair_quote}` |
+| Pintu | IDR | `https://pintu.co.id/pro/id/trade/{pair_quote}` |
 | Binance | USDT | `https://www.binance.com/en/trade/{pair_quote}` |
 | MEXC | USDT | `https://www.mexc.fm/exchange/{pair_quote}` |
 | KuCoin | USDT | `https://www.kucoin.com/trade/{pair_quote}` |
