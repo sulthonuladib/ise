@@ -255,15 +255,12 @@ async function selectExchange(exchangeKey, { skipStorage = false } = {}) {
 		await chrome.storage.local.set({ [SELECTED_EXCHANGE_KEY]: exchangeKey });
 	}
 
-	// Clear search
-	dom.searchInput.value = '';
-
 	// Try cache first — instant swap
 	const cached = await readCache(exchangeKey);
 	if (cached) {
 		pairsData = cached.pairs;
 		updateLastUpdated(cached.timestamp);
-		fadeExchangeSwitch(() => renderResults(pairsData));
+		fadeExchangeSwitch(() => search(dom.searchInput.value.trim()));
 		return;
 	}
 
@@ -276,7 +273,7 @@ async function selectExchange(exchangeKey, { skipStorage = false } = {}) {
 		pairsData = result.pairs;
 		updateLastUpdated(result.timestamp);
 		showStatus('');
-		fadeExchangeSwitch(() => renderResults(pairsData));
+		fadeExchangeSwitch(() => search(dom.searchInput.value.trim()));
 	} else if (result) {
 		// User switched away while fetching — just cache it
 		// (already written by fetchAndNormalize)
