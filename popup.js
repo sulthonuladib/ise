@@ -82,6 +82,9 @@ const EXCHANGES = {
 let selectedExchange = 'indodax';
 let pairsData = [];
 let searchTimer = null;
+const CHUNK_SIZE = 10;
+let renderedCount = 0;
+let filteredPairs = [];
 
 // ── DOM refs (populated on DOMContentLoaded) ─────────────────────────────────
 let dom = {};
@@ -186,23 +189,42 @@ function updateLastUpdated(timestamp) {
 		: '';
 }
 
-function renderResults(pairs) {
-	dom.resultsList.innerHTML = '';
-	if (!pairs.length) {
-		dom.resultsList.innerHTML = '<li class="no-results">No pairs found</li>';
-	} else {
-		const exchange = EXCHANGES[selectedExchange];
-		const fragment = document.createDocumentFragment();
-		for (const pair of pairs) {
-			const li = document.createElement('li');
-			li.className = 'result-item';
-			li.innerHTML = `<div class="pair-info"><span class="pair-symbol">${pair.symbol}</span><span class="pair-description">${pair.description}</span></div><span class="pair-quote">${pair.base}/${pair.quote}</span>`;
-			li.addEventListener('click', () => chrome.tabs.create({ url: exchange.formatUrl(pair) }));
-			fragment.appendChild(li);
-		}
-		dom.resultsList.appendChild(fragment);
+function renderResults(pairs, append = false) {
+	if (!append) {
+		dom.resultsList.innerHTML = '';
+		filteredPairs = pairs;
+		renderedCount = 0;
+		dom.resultsList.parentElement.scrollTop = 0;
 	}
+
+	if (!filteredPairs.length && !append) {
+		dom.resultsList.innerHTML = '<li class="no-results">No pairs found</li>';
+		showSkeleton(false);
+		return;
+	}
+
+	const exchange = EXCHANGES[selectedExchange];
+	const end = Math.min(renderedCount + CHUNK_SIZE, filteredPairs.length);
+	const fragment = document.createDocumentFragment();
+	for (let i = renderedCount; i < end; i++) {
+		const pair = filteredPairs[i];
+		const li = document.createElement('li');
+		li.className = 'result-item';
+		li.innerHTML = `<div class="pair-info"><span class="pair-symbol">${pair.symbol}</span><span class="pair-description">${pair.description}</span></div><span class="pair-quote">${pair.base}/${pair.quote}</span>`;
+		li.addEventListener('click', () => chrome.tabs.create({ url: exchange.formatUrl(pair) }));
+		fragment.appendChild(li);
+	}
+	dom.resultsList.appendChild(fragment);
+	renderedCount = end;
 	showSkeleton(false);
+}
+
+function loadMoreChunks() {
+	if (renderedCount >= filteredPairs.length) return;
+	const scrollEl = dom.resultsList.parentElement;
+	if (scrollEl.scrollTop + scrollEl.clientHeight >= scrollEl.scrollHeight - 50) {
+		renderResults(filteredPairs, true);
+	}
 }
 
 function fadeExchangeSwitch(callback) {
@@ -323,6 +345,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	// Bind events
 	dom.searchInput.addEventListener('input', handleSearchInput);
 	dom.refreshBtn.addEventListener('click', handleRefresh);
+	dom.resultsList.parentElement.addEventListener('scroll', loadMoreChunks);
 
 	// Initial render — show skeleton while first exchange loads
 	showSkeleton(true);
