@@ -4,54 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Exchange Coin Search</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ink: '#0f172a',
-            muted: '#64748b',
-            accent: '#6366f1',
-            'accent-light': '#818cf8',
-            canvas: '#f8fafc',
-          },
-          width: { popup: '400px' },
-          height: { popup: '520px' }
-        }
-      }
-    }
-  </script>
   <link rel="stylesheet" href="popup.css">
 </head>
-<body class="w-popup h-popup overflow-hidden bg-canvas text-ink font-sans antialiased">
-  <div class="flex flex-col h-popup">
+<body>
+  <div class="app">
 
     <!-- Header -->
-    <div class="flex items-center justify-between px-5 pt-5 pb-4 text-white bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950">
-      <h1 class="text-lg font-semibold tracking-tight">Exchange Search</h1>
-      <button id="refreshBtn" class="refresh-btn grid place-items-center w-8 h-8 text-white/70 bg-white/10 border border-white/10 rounded-lg cursor-pointer transition-all duration-200 hover:bg-white/20 hover:text-white hover:scale-105" title="Refresh coin list">
+    <header class="header">
+      <h1 class="header-title">Exchange Search</h1>
+      <button id="refreshBtn" class="refresh-btn" title="Refresh coin list">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
         </svg>
       </button>
-    </div>
+    </header>
 
     <!-- Exchange Tabs -->
-    <div class="px-4 pt-3 pb-2 bg-white border-b border-slate-100">
-      <div id="exchangeTabs" class="flex flex-wrap gap-1.5" role="tablist" aria-label="Exchange selection"></div>
+    <div class="exchange-bar">
+      <div id="exchangeTabs" class="exchange-tabs" role="tablist" aria-label="Exchange selection"></div>
     </div>
 
     <!-- Search -->
-    <div class="px-4 pt-3 pb-3 bg-white">
-      <div class="relative">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <div class="search-bar">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
         <input
           type="text"
           id="searchInput"
-          class="w-full py-2.5 pl-9 pr-3 text-sm text-ink bg-slate-50 border border-slate-200 rounded-xl outline-none transition-all duration-200 placeholder:text-slate-400 focus:bg-white focus:border-accent focus:ring-2 focus:ring-accent/20"
+          class="search-input"
           placeholder="Search coin pairs..."
           autocomplete="off"
         />
@@ -59,29 +41,29 @@
     </div>
 
     <!-- Status -->
-    <div class="status hidden px-4 py-2.5 text-xs text-amber-700 text-center bg-amber-50 border-y border-amber-100" id="status"></div>
+    <div class="status" id="status"></div>
 
     <!-- Results -->
-    <div class="flex-1 overflow-y-auto bg-white">
+    <div class="results-scroll">
       <!-- Skeleton -->
-      <div id="skeleton" class="p-4 space-y-3">
-        <div class="skeleton-item"><div class="skeleton-line w-16 h-3.5"></div><div class="skeleton-line w-24 h-2.5 mt-1.5"></div><div class="skeleton-badge w-10 h-5"></div></div>
-        <div class="skeleton-item"><div class="skeleton-line w-14 h-3.5"></div><div class="skeleton-line w-20 h-2.5 mt-1.5"></div><div class="skeleton-badge w-10 h-5"></div></div>
-        <div class="skeleton-item"><div class="skeleton-line w-18 h-3.5"></div><div class="skeleton-line w-28 h-2.5 mt-1.5"></div><div class="skeleton-badge w-10 h-5"></div></div>
-        <div class="skeleton-item"><div class="skeleton-line w-12 h-3.5"></div><div class="skeleton-line w-16 h-2.5 mt-1.5"></div><div class="skeleton-badge w-10 h-5"></div></div>
-        <div class="skeleton-item"><div class="skeleton-line w-20 h-3.5"></div><div class="skeleton-line w-32 h-2.5 mt-1.5"></div><div class="skeleton-badge w-10 h-5"></div></div>
-        <div class="skeleton-item"><div class="skeleton-line w-14 h-3.5"></div><div class="skeleton-line w-20 h-2.5 mt-1.5"></div><div class="skeleton-badge w-10 h-5"></div></div>
-        <div class="skeleton-item"><div class="skeleton-line w-16 h-3.5"></div><div class="skeleton-line w-24 h-2.5 mt-1.5"></div><div class="skeleton-badge w-10 h-5"></div></div>
-        <div class="skeleton-item"><div class="skeleton-line w-12 h-3.5"></div><div class="skeleton-line w-20 h-2.5 mt-1.5"></div><div class="skeleton-badge w-10 h-5"></div></div>
+      <div id="skeleton" class="skeleton-list">
+        <div class="skeleton-row"><div class="skel skel-title w16"></div><div class="skel skel-sub w24"></div><div class="skel skel-badge w10"></div></div>
+        <div class="skeleton-row"><div class="skel skel-title w14"></div><div class="skel skel-sub w20"></div><div class="skel skel-badge w10"></div></div>
+        <div class="skeleton-row"><div class="skel skel-title w20"></div><div class="skel skel-sub w28"></div><div class="skel skel-badge w10"></div></div>
+        <div class="skeleton-row"><div class="skel skel-title w12"></div><div class="skel skel-sub w16"></div><div class="skel skel-badge w10"></div></div>
+        <div class="skeleton-row"><div class="skel skel-title w18"></div><div class="skel skel-sub w32"></div><div class="skel skel-badge w10"></div></div>
+        <div class="skeleton-row"><div class="skel skel-title w14"></div><div class="skel skel-sub w20"></div><div class="skel skel-badge w10"></div></div>
+        <div class="skeleton-row"><div class="skel skel-title w16"></div><div class="skel skel-sub w24"></div><div class="skel skel-badge w10"></div></div>
+        <div class="skeleton-row"><div class="skel skel-title w12"></div><div class="skel skel-sub w20"></div><div class="skel skel-badge w10"></div></div>
       </div>
       <!-- Results list -->
-      <ul id="resultsList" class="list-none transition-opacity duration-100 hidden"></ul>
+      <ul id="resultsList" class="results-list hidden"></ul>
     </div>
 
     <!-- Footer -->
-    <div class="py-2.5 px-4 text-center bg-slate-50 border-t border-slate-100">
-      <span id="lastUpdated" class="text-[11px] text-slate-400"></span>
-    </div>
+    <footer class="footer">
+      <span id="lastUpdated" class="footer-text"></span>
+    </footer>
 
   </div>
 
