@@ -170,9 +170,14 @@ async function fetchAndNormalize(exchangeKey) {
 
 // ── UI ───────────────────────────────────────────────────────────────────────
 
+function showSkeleton(show) {
+	dom.skeleton.classList.toggle('hidden', !show);
+	dom.resultsList.classList.toggle('hidden', show);
+}
+
 function showStatus(message) {
 	dom.status.textContent = message;
-	dom.status.style.display = message ? 'block' : 'none';
+	dom.status.classList.toggle('hidden', !message);
 }
 
 function updateLastUpdated(timestamp) {
@@ -185,18 +190,19 @@ function renderResults(pairs) {
 	dom.resultsList.innerHTML = '';
 	if (!pairs.length) {
 		dom.resultsList.innerHTML = '<li class="no-results">No pairs found</li>';
-		return;
+	} else {
+		const exchange = EXCHANGES[selectedExchange];
+		const fragment = document.createDocumentFragment();
+		for (const pair of pairs) {
+			const li = document.createElement('li');
+			li.className = 'result-item';
+			li.innerHTML = `<div class="pair-info"><span class="pair-symbol">${pair.symbol}</span><span class="pair-description">${pair.description}</span></div><span class="pair-quote">${pair.base}/${pair.quote}</span>`;
+			li.addEventListener('click', () => chrome.tabs.create({ url: exchange.formatUrl(pair) }));
+			fragment.appendChild(li);
+		}
+		dom.resultsList.appendChild(fragment);
 	}
-	const exchange = EXCHANGES[selectedExchange];
-	const fragment = document.createDocumentFragment();
-	for (const pair of pairs) {
-		const li = document.createElement('li');
-		li.className = 'result-item';
-		li.innerHTML = `<div class="pair-info"><span class="pair-symbol">${pair.symbol}</span><span class="pair-description">${pair.description}</span></div><span class="pair-quote">${pair.base}/${pair.quote}</span>`;
-		li.addEventListener('click', () => chrome.tabs.create({ url: exchange.formatUrl(pair) }));
-		fragment.appendChild(li);
-	}
-	dom.resultsList.appendChild(fragment);
+	showSkeleton(false);
 }
 
 function fadeExchangeSwitch(callback) {
@@ -261,9 +267,9 @@ async function selectExchange(exchangeKey, { skipStorage = false } = {}) {
 		return;
 	}
 
-	// No cache — fetch from API
+	// No cache — show skeleton, fetch from API
 	pairsData = [];
-	renderResults([]);
+	showSkeleton(true);
 	showStatus(`Loading ${EXCHANGES[exchangeKey].name}...`);
 	const result = await fetchAndNormalize(exchangeKey);
 	if (result && selectedExchange === exchangeKey) {
@@ -298,6 +304,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 		tabs: document.getElementById('exchangeTabs'),
 		searchInput: document.getElementById('searchInput'),
 		resultsList: document.getElementById('resultsList'),
+		skeleton: document.getElementById('skeleton'),
 		refreshBtn: document.getElementById('refreshBtn'),
 		status: document.getElementById('status'),
 		lastUpdated: document.getElementById('lastUpdated')
@@ -320,8 +327,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 	dom.searchInput.addEventListener('input', handleSearchInput);
 	dom.refreshBtn.addEventListener('click', handleRefresh);
 
-	// Initial render
-	renderResults([]);
+	// Initial render — show skeleton while first exchange loads
+	showSkeleton(true);
 	dom.searchInput.focus();
 
 	// Load default exchange (instant from cache if available)
